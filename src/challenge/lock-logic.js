@@ -16,6 +16,20 @@ function changeDialValue (index, incrementBy) {
   // for example, if the user clicked the "down" arrow for the last wheel
   // this will be called with arguments (3, -1).
 
+  // Negative Value Wrap Back to 9
+  // Using Modulo adjust the wheels by passed in index and increment vals
+  if (lockState.wheels[index] === 0 && incrementBy === -1) {
+    lockState.wheels[index] = 9
+  } else {
+    lockState.wheels[index] = (lockState.wheels[index] + incrementBy) % 10
+  }
+
+  // To Compare lockState and SECRET_COMBO, Use Stringify in order to avoid deep element matching
+  if (JSON.stringify(lockState.wheels) === JSON.stringify(SECRET_COMBO)) {
+    lockState.locked = false
+    redirect('dylan-sapienza')
+  }
+
   // to change the state of the lock, simply make a call like
   // lockState.locked = false
   // or lockState.wheels[1] = 2
